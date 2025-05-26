@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from .models import Employee, Role, Department
 from django.db.models import Q
 from django.contrib import messages
+from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
@@ -16,6 +17,14 @@ def all_emp(request):
     }
     print(context)
     return render(request, 'all_emp.html',context)
+
+def get_departments(request):
+    departments = list(Department.objects.values('id', 'name'))
+    return JsonResponse({'departments': departments})
+
+def get_roles(request):
+    roles = list(Role.objects.values('id', 'name'))
+    return JsonResponse({'roles': roles})
 
 def add_emp(request):
     if request.method == 'POST':
